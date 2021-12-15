@@ -13,10 +13,14 @@ export default function InformacoesFinanceirasWB() {
     const [oData, oSetData] = useState("");
 
     useEffect(() => {
-        var hours = new Date(startDate.getTime() - 10800000).toISOString().split("T")[1].split(".")[0]; //Obtem horas e diminui 3hrs para se ajustar ao fuso horário.
-        oSetData(startDate.getDate() + "/" + (startDate.getMonth() + 1) + "/" + startDate.getFullYear() + ":" + hours);
+        oSetData(startDate.getDate() + "/" + (startDate.getMonth() + 1) + "/" + startDate.getFullYear());
 
     }, []);
+
+    useEffect(() => {
+        oSetData(startDate.getDate() + "/" + (startDate.getMonth() + 1) + "/" + startDate.getFullYear());
+
+    }, [startDate]);
 
     return (
         <div className={styles.informacoesFinanceiras}>
@@ -26,7 +30,7 @@ export default function InformacoesFinanceirasWB() {
                     <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} locale="ptbr" />
                 </div>
                 <div className={styles.filterDateRight}>
-                    <span>{oData}</span>
+                    <strong><span>{oData}</span></strong>
                 </div>
             </div>
 
