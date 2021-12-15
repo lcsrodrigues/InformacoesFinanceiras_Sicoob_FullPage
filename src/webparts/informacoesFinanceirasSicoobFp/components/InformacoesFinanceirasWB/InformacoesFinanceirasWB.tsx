@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './style.module.scss';
 import DatePicker from "react-datepicker";
-import { registerLocale, setDefaultLocale } from "react-datepicker";
+import { registerLocale } from "react-datepicker";
 import ptbr from 'date-fns/locale/pt-BR';
 registerLocale('ptbr', ptbr)
 
@@ -10,7 +10,14 @@ import "react-datepicker/dist/react-datepicker.css";
 
 export default function InformacoesFinanceirasWB() {
     const [startDate, setStartDate] = useState(new Date());
-    const [oData] = useState(0);
+    const [oData, oSetData] = useState("");
+
+    useEffect(() => {
+        var hours = new Date(startDate.getTime() - 10800000).toISOString().split("T")[1].split(".")[0]; //Obtem horas e diminui 3hrs para se ajustar ao fuso horário.
+        oSetData(startDate.getDate() + "/" + (startDate.getMonth() + 1) + "/" + startDate.getFullYear() + ":" + hours);
+
+    }, []);
+
     return (
         <div className={styles.informacoesFinanceiras}>
             <div className={styles.filterDate}>
