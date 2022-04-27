@@ -21,7 +21,8 @@ export default class InformacoesFinanceirasSicoobFpWebPart extends BaseClientSid
     const element: React.ReactElement<IInformacoesFinanceirasSicoobFpProps> = React.createElement(
       InformacoesFinanceirasSicoobFp,
       {
-        description: this.properties.description
+        description: this.properties.description,
+        serverRelativeUrl: this.context.pageContext.site.serverRelativeUrl
       }
     );
 
