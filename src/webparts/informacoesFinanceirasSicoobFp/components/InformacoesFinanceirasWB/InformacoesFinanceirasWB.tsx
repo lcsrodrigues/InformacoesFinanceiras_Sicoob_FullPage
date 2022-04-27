@@ -34,7 +34,7 @@ export default function InformacoesFinanceirasWB({ props }) {
             url += "&$filter=Created ge datetime'" + new Date(date).toISOString() + "'";
         }
 
-        axios.get(props.serverRelativeUrl + url)
+        axios.get("https://crediminas.sharepoint.com/sites/intranet/" + url)
             .then(result => {
                 if (result.data.value.length) {
                     setResult(result.data.value);
