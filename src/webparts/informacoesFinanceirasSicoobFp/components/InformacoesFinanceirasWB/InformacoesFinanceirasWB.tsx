@@ -28,10 +28,11 @@ export default function InformacoesFinanceirasWB({ props }) {
         setStartDate(date);
         var url =
             "/_api/web/lists/getbytitle('Informacoes Financeiras')/items?" +
-            "$top=1&" +
-            "$orderby=ID desc"
+            "$top=1&";
         if (date != null) {
-            url += "&$filter=Created ge datetime'" + new Date(date).toISOString() + "'";
+            url += "&$orderby=ID asc&$filter=field_1 ge datetime'" + new Date(date).toISOString() + "'";
+        }else{
+            url += "$orderby=ID desc";
         }
 
         axios.get("https://crediminas.sharepoint.com/sites/intranet/" + url)
@@ -51,6 +52,14 @@ export default function InformacoesFinanceirasWB({ props }) {
         style: 'currency',
         currency: 'BRL',
     });
+
+    const convert = (value) => {
+        return value.toString().replace(".", ",");
+    };
+
+    const splitNumber = (value) => {
+        return value.split(",")[0].replace(".", ",");
+    };
 
     return (
         <div className={styles.informacoesFinanceiras}>
@@ -84,7 +93,7 @@ export default function InformacoesFinanceirasWB({ props }) {
                                                             <span>SELIC (A.A)</span>
                                                         </div>
                                                         <div className={styles.boxMercadoTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_2))}</span>
+                                                            <span>{convert(data.field_2)}%</span>
                                                         </div>
                                                     </li>
                                                     <li>
@@ -92,7 +101,7 @@ export default function InformacoesFinanceirasWB({ props }) {
                                                             <span>CDI (A.A)</span>
                                                         </div>
                                                         <div className={styles.boxMercadoTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_3))}</span>
+                                                            <span>{convert(data.field_3)}%</span>
                                                         </div>
                                                     </li>
                                                     <li>
@@ -100,7 +109,7 @@ export default function InformacoesFinanceirasWB({ props }) {
                                                             <span>POUPANÇA (A.M)</span>
                                                         </div>
                                                         <div className={styles.boxMercadoTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_4))}</span>
+                                                            <span>{convert(data.field_4)}%</span>
                                                         </div>
                                                     </li>
                                                     <li>
@@ -108,7 +117,7 @@ export default function InformacoesFinanceirasWB({ props }) {
                                                             <span>TR(A.M)</span>
                                                         </div>
                                                         <div className={styles.boxMercadoTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_5))}</span>
+                                                            <span>{convert(data.field_5)}%</span>
                                                         </div>
                                                     </li>
                                                     <li>
@@ -116,7 +125,7 @@ export default function InformacoesFinanceirasWB({ props }) {
                                                             <span>TBF(A.M)</span>
                                                         </div>
                                                         <div className={styles.boxMercadoTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_6))}</span>
+                                                            <span>{convert(data.field_6)}%</span>
                                                         </div>
                                                     </li>
                                                     <li>
@@ -124,7 +133,7 @@ export default function InformacoesFinanceirasWB({ props }) {
                                                             <span>TJLP(A.A)</span>
                                                         </div>
                                                         <div className={styles.boxMercadoTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_7))}</span>
+                                                            <span>{convert(data.field_7)}%</span>
                                                         </div>
                                                     </li>
                                                     <li>
@@ -132,7 +141,7 @@ export default function InformacoesFinanceirasWB({ props }) {
                                                             <span>IPCA(A.A)</span>
                                                         </div>
                                                         <div className={styles.boxMercadoTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_8))}</span>
+                                                            <span>{convert(data.field_8)}%</span>
                                                         </div>
                                                     </li>
                                                     <li>
@@ -140,7 +149,7 @@ export default function InformacoesFinanceirasWB({ props }) {
                                                             <span>IGPM(A.M)</span>
                                                         </div>
                                                         <div className={styles.boxMercadoTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_9))}</span>
+                                                            <span>{convert(data.field_9)}%</span>
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -158,7 +167,7 @@ export default function InformacoesFinanceirasWB({ props }) {
                                                                 <span>DÓLAR VALOR MÊS+1</span>
                                                             </div>
                                                             <div className={styles.boxMercadoTableValue}>
-                                                                <span>{formatter.format(parseInt(data.field_23))}</span>
+                                                                <span>{splitNumber(formatter.format(parseInt(data.field_23)))}</span>
                                                             </div>
                                                         </li>
                                                         <li>
@@ -166,7 +175,7 @@ export default function InformacoesFinanceirasWB({ props }) {
                                                                 <span>DÓLAR VALOR MÊS+2</span>
                                                             </div>
                                                             <div className={styles.boxMercadoTableValue}>
-                                                                <span>{formatter.format(parseInt(data.field_24))}</span>
+                                                                <span>{splitNumber(formatter.format(parseInt(data.field_24)))}</span>
                                                             </div>
                                                         </li>
                                                         <li>
@@ -174,7 +183,7 @@ export default function InformacoesFinanceirasWB({ props }) {
                                                                 <span>DÓLAR VALOR MÊS+3</span>
                                                             </div>
                                                             <div className={styles.boxMercadoTableValue}>
-                                                                <span>{formatter.format(parseInt(data.field_25))}</span>
+                                                                <span>{splitNumber(formatter.format(parseInt(data.field_25)))}</span>
                                                             </div>
                                                         </li>
                                                         <li>
@@ -182,7 +191,7 @@ export default function InformacoesFinanceirasWB({ props }) {
                                                                 <span>DÓLAR VARIAÇÃO MÊS+1</span>
                                                             </div>
                                                             <div className={styles.boxMercadoTableValue}>
-                                                                <span>{formatter.format(parseInt(data.field_26))}</span>
+                                                                <span>{splitNumber(formatter.format(parseInt(data.field_26)))}</span>
                                                             </div>
                                                         </li>
                                                         <li>
@@ -190,7 +199,7 @@ export default function InformacoesFinanceirasWB({ props }) {
                                                                 <span>DÓLAR VARIAÇÃO MÊS+2</span>
                                                             </div>
                                                             <div className={styles.boxMercadoTableValue}>
-                                                                <span>{formatter.format(parseInt(data.field_27))}</span>
+                                                                <span>{splitNumber(formatter.format(parseInt(data.field_27)))}</span>
                                                             </div>
                                                         </li>
                                                         <li>
@@ -198,7 +207,7 @@ export default function InformacoesFinanceirasWB({ props }) {
                                                                 <span>DÓLAR VARIAÇÃO MÊS+3</span>
                                                             </div>
                                                             <div className={styles.boxMercadoTableValue}>
-                                                                <span>{formatter.format(parseInt(data.field_28))}</span>
+                                                                <span>{splitNumber(formatter.format(parseInt(data.field_28)))}</span>
                                                             </div>
                                                         </li>
                                                     </ul>
@@ -218,7 +227,7 @@ export default function InformacoesFinanceirasWB({ props }) {
                                                                 <span>IBOVESPA</span>
                                                             </div>
                                                             <div className={styles.boxMercadoTableValue}>
-                                                                <span>{formatter.format(parseInt(data.field_13))}</span>
+                                                                <span>{convert(data.field_13)}%</span>
                                                             </div>
                                                         </li>
                                                         <li>
@@ -226,7 +235,7 @@ export default function InformacoesFinanceirasWB({ props }) {
                                                                 <span>IBOVESPA (PONTOS)</span>
                                                             </div>
                                                             <div className={styles.boxMercadoTableValue}>
-                                                                <span>{formatter.format(parseInt(data.field_14))}</span>
+                                                                <span>{convert(data.field_14)}</span>
                                                             </div>
                                                         </li>
                                                     </ul>
@@ -293,22 +302,22 @@ export default function InformacoesFinanceirasWB({ props }) {
                                                             <span>CAFÉ</span>
                                                         </div>
                                                         <div className={styles.boxComoditiesTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_15))}</span>
+                                                            <span>R$ {convert(data.field_15)}</span>
                                                         </div>
                                                         <div className={styles.boxComoditiesTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_18))}</span>
+                                                            <span>{convert(data.field_18)}%</span>
                                                         </div>
                                                         <div className={styles.boxComoditiesTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_16))}</span>
+                                                            <span>R$ {convert(data.field_16)}</span>
                                                         </div>
                                                         <div className={styles.boxComoditiesTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_19))}</span>
+                                                            <span>{convert(data.field_19)}%</span>
                                                         </div>
                                                         <div className={styles.boxComoditiesTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_17))}</span>
+                                                            <span>R$ {convert(data.field_17)}</span>
                                                         </div>
                                                         <div className={styles.boxComoditiesTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_20))}</span>
+                                                            <span>{convert(data.field_20)}%</span>
                                                         </div>
                                                     </li>
                                                     <li>
@@ -316,22 +325,22 @@ export default function InformacoesFinanceirasWB({ props }) {
                                                             <span>BOI</span>
                                                         </div>
                                                         <div className={styles.boxComoditiesTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_29))}</span>
+                                                            <span>R$ {convert(data.field_29)}</span>
                                                         </div>
                                                         <div className={styles.boxComoditiesTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_32))}</span>
+                                                            <span>{convert(data.field_32)}%</span>
                                                         </div>
                                                         <div className={styles.boxComoditiesTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_30))}</span>
+                                                            <span>R$ {convert(data.field_30)}</span>
                                                         </div>
                                                         <div className={styles.boxComoditiesTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_33))}</span>
+                                                            <span>{convert(data.field_33)}%</span>
                                                         </div>
                                                         <div className={styles.boxComoditiesTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_31))}</span>
+                                                            <span>R$ {convert(data.field_31)}</span>
                                                         </div>
                                                         <div className={styles.boxComoditiesTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_34))}</span>
+                                                            <span>{convert(data.field_34)}%</span>
                                                         </div>
                                                     </li>
                                                     <li>
@@ -339,22 +348,22 @@ export default function InformacoesFinanceirasWB({ props }) {
                                                             <span>JUROS_DI</span>
                                                         </div>
                                                         <div className={styles.boxComoditiesTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_35))}</span>
+                                                            <span>R$ {convert(data.field_35)}</span>
                                                         </div>
                                                         <div className={styles.boxComoditiesTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_38))}</span>
+                                                            <span>{convert(data.field_38)}%</span>
                                                         </div>
                                                         <div className={styles.boxComoditiesTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_36))}</span>
+                                                            <span>R$ {convert(data.field_36)}</span>
                                                         </div>
                                                         <div className={styles.boxComoditiesTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_39))}</span>
+                                                            <span>{convert(data.field_39)}%</span>
                                                         </div>
                                                         <div className={styles.boxComoditiesTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_37))}</span>
+                                                            <span>R$ {convert(data.field_37)}</span>
                                                         </div>
                                                         <div className={styles.boxComoditiesTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_40))}</span>
+                                                            <span>{convert(data.field_40)}%</span>
                                                         </div>
                                                     </li>
                                                     <li>
@@ -362,22 +371,22 @@ export default function InformacoesFinanceirasWB({ props }) {
                                                             <span>MILHO</span>
                                                         </div>
                                                         <div className={styles.boxComoditiesTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_41))}</span>
+                                                            <span>R$ {convert(data.field_41)}</span>
                                                         </div>
                                                         <div className={styles.boxComoditiesTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_44))}</span>
+                                                            <span>{convert(data.field_44)}%</span>
                                                         </div>
                                                         <div className={styles.boxComoditiesTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_42))}</span>
+                                                            <span>R$ {convert(data.field_42)}</span>
                                                         </div>
                                                         <div className={styles.boxComoditiesTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_45))}</span>
+                                                            <span>{convert(data.field_45)}%</span>
                                                         </div>
                                                         <div className={styles.boxComoditiesTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_43))}</span>
+                                                            <span>R$ {convert(data.field_43)}</span>
                                                         </div>
                                                         <div className={styles.boxComoditiesTableValue}>
-                                                            <span>{formatter.format(parseInt(data.field_46))}</span>
+                                                            <span>{convert(data.field_46)}%</span>
                                                         </div>
                                                     </li>
                                                 </ul>
