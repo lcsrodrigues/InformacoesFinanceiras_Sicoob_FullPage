@@ -19,7 +19,6 @@ export default function InformacoesFinanceirasWB({ props }) {
     // }, [startDate]);
 
     useEffect(() => {
-        oSetData(startDate.getDate() + "/" + (startDate.getMonth() + 1) + "/" + startDate.getFullYear());
         getAllInformacoesFinanceiras(null);
 
     }, []);
@@ -31,7 +30,7 @@ export default function InformacoesFinanceirasWB({ props }) {
             "$top=1&";
         if (date != null) {
             url += "&$orderby=ID asc&$filter=field_1 ge datetime'" + new Date(date).toISOString() + "'";
-        }else{
+        } else {
             url += "$orderby=ID desc";
         }
 
@@ -39,6 +38,7 @@ export default function InformacoesFinanceirasWB({ props }) {
             .then(result => {
                 if (result.data.value.length) {
                     setResult(result.data.value);
+                    oSetData(result.data.value[0].field_1);
                 } else {
                     setResult([]);
                 }
@@ -53,8 +53,21 @@ export default function InformacoesFinanceirasWB({ props }) {
         currency: 'BRL',
     });
 
+    const convertISODate = (ISODate) => {
+        const data = new Date(ISODate);
+        const dia = data.getDate();
+        const mes = data.getMonth() + 1;
+        const ano = data.getFullYear();
+
+        return dia + "/" + mes + "/" + ano;
+    }
+
     const convert = (value) => {
-        return value.toString().replace(".", ",");
+        if (value != null) {
+            return value.toString().replace(".", ",");
+        } else {
+            return 0;
+        }
     };
 
     const splitNumber = (value) => {
@@ -69,7 +82,7 @@ export default function InformacoesFinanceirasWB({ props }) {
                     <DatePicker selected={startDate} onChange={(date) => getAllInformacoesFinanceiras(date)} locale="ptbr" />
                 </div>
                 <div className={styles.filterDateRight}>
-                    <strong><span>{oData}</span></strong>
+                    <strong><span>{convertISODate(oData)}</span></strong>
                 </div>
             </div>
             {
