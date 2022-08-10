@@ -31,7 +31,7 @@ export default function InformacoesFinanceirasWB({ props }) {
         if (date != null) {
             url += "&$orderby=ID asc&$filter=field_1 ge datetime'" + new Date(date).toISOString() + "'";
         } else {
-            url += "$orderby=ID desc";
+            url += "$orderby=field_1 desc";
         }
 
         axios.get("https://crediminas.sharepoint.com/sites/intranet/" + url)
